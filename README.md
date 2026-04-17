@@ -18,9 +18,11 @@ AutoElite is a modern e-commerce platform built with Next.js 15, featuring a ful
 ### 🛒 Shopping Experience
 
 - **Product Catalog** - Browse products with category filtering
-- **Product Detail Pages** - Detailed view with images, descriptions, and ratings
+- **Product Detail Pages** - Detailed view with images, descriptions, ratings, and recommendations
 - **Shopping Cart** - Add/remove items, quantity management, persistent storage
+- **Wishlist System** - Save favorite products, persistent storage, easy management
 - **Star Ratings** - Visual rating display for products
+- **Product Recommendations** - Related products based on category
 
 ### 📱 Responsive Design
 
@@ -40,10 +42,20 @@ AutoElite is a modern e-commerce platform built with Next.js 15, featuring a ful
 
 ### 💾 State Management
 
-- **Redux Toolkit** - Centralized state for cart and user data
-- **Redux Persist** - Persistent cart storage across sessions
+- **Redux Toolkit** - Centralized state for cart, wishlist, and user data
+- **Redux Persist** - Persistent cart and wishlist storage across sessions
 - **TanStack Query** - Optimized data fetching and caching
 - **Type-Safe** - Full TypeScript support throughout
+
+### ❤️ Wishlist Features
+
+- **Add to Wishlist** - Heart button on product detail pages
+- **Wishlist Page** - Responsive grid layout to view saved items
+- **Quick Remove** - One-click removal from wishlist
+- **Persistent Storage** - Wishlist survives browser refresh
+- **Badge Counter** - Real-time count in navbar
+- **Empty State** - Friendly message when wishlist is empty
+- **Mobile Optimized** - Touch-friendly interface with proper spacing
 
 ### 🌟 User Experience
 
@@ -60,7 +72,11 @@ src/
 │   ├── layout.tsx              # Root layout with providers
 │   ├── page.tsx                # Home page (product listing)
 │   ├── cart/
-│   │   └── page.tsx            # Shopping cart page
+│   │   ├── page.tsx            # Shopping cart page
+│   │   └── not-found.tsx       # 404 for cart
+│   ├── wishlist/
+│   │   ├── page.tsx            # Wishlist page
+│   │   └── not-found.tsx       # 404 for wishlist
 │   ├── products/
 │   │   └── [id]/
 │   │       ├── page.tsx        # Product detail page
@@ -73,7 +89,7 @@ src/
 │       ├── Card/               # Product card component
 │       ├── Grid/               # Product grid layout
 │       ├── FilterSidebar/      # Category filter sidebar
-│       └── ListCard/            # List view of products
+│       └── ListCard/           # List view of products
 ├── components/
 │   ├── providers.tsx           # Root providers wrapper
 │   ├── composites/
@@ -114,7 +130,8 @@ src/
 │   ├── persist.ts              # Persist configuration
 │   ├── hooks.ts                # Typed hooks
 │   └── slices/
-│       └── cartSlice.ts        # Cart state management
+│       ├── cart-slice.ts       # Cart state management
+│       └── wishlist-slice.ts   # Wishlist state management
 ├── providers/
 │   ├── query-provider.tsx      # QueryClientProvider wrapper
 │   └── redux-provider.tsx      # Redux Provider wrapper
@@ -150,19 +167,7 @@ cd AutoElite
 npm install
 ```
 
-### 2. Environment Variables
-
-```bash
-cp .env.example .env.local
-```
-
-Edit `.env.local` with your API configuration:
-
-```env
-NEXT_PUBLIC_API_URL=https://fakestoreapi.com
-```
-
-### 3. Run Development Server
+### 2. Run Development Server
 
 ```bash
 npm run dev
@@ -170,7 +175,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 4. Build for Production
+### 3. Build for Production
 
 ```bash
 npm run build

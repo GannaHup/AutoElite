@@ -12,6 +12,7 @@ import Loading from "@/components/ui/Loading";
 import ProductCard from "@/components/ui/ProductCard";
 import StarRating from "@/components/ui/StarRating";
 import { useProduct, useProductsByCategory } from "@/features/products/hooks";
+import useDisclosure from "@/hooks/use-disclosure";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addToCart } from "@/store/slices/cart-slice";
 import { addToWishlist, removeFromWishlist } from "@/store/slices/wishlist-slice";
@@ -23,7 +24,7 @@ const ProductDetailPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
   const [quantity, setQuantity] = useState(0);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const showSuccessModal = useDisclosure({ open: false });
   const { data: product, isLoading, error } = useProduct(String(params.id || ""));
   const { data: categoryProducts } = useProductsByCategory(product?.category);
   const { items: wishlistItems } = useAppSelector((state) => state.wishlist);
@@ -41,12 +42,12 @@ const ProductDetailPage: React.FC = () => {
   const handleAddToCart = () => {
     if (product) {
       dispatch(addToCart({ ...product, quantity }));
-      setShowSuccessModal(true);
+      showSuccessModal.onOpen();
     }
   };
 
   const handleCloseModal = () => {
-    setShowSuccessModal(false);
+    showSuccessModal.onClose();
   };
 
   const handleToggleWishlist = () => {
@@ -66,7 +67,7 @@ const ProductDetailPage: React.FC = () => {
   return (
     <div className="min-h-screen">
       <SuccessAddToCartModal
-        isOpen={showSuccessModal}
+        isOpen={showSuccessModal.isOpen}
         quantity={quantity}
         product={product}
         onClose={handleCloseModal}
